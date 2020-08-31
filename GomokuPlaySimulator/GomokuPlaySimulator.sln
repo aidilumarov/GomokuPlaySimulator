@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GomokuPlaySimulator.Console", "GomokuPlaySimulator.Console\GomokuPlaySimulator.Console.csproj", "{B7396D2C-293D-45C4-9063-220EDD39967C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GomokuPlaySimulator.Core", "GomokuPlaySimulator.Core\GomokuPlaySimulator.Core.csproj", "{7D1A1513-AC12-43DB-9250-756413ABED6C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7396D2C-293D-45C4-9063-220EDD39967C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7396D2C-293D-45C4-9063-220EDD39967C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7396D2C-293D-45C4-9063-220EDD39967C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7396D2C-293D-45C4-9063-220EDD39967C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D1A1513-AC12-43DB-9250-756413ABED6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D1A1513-AC12-43DB-9250-756413ABED6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D1A1513-AC12-43DB-9250-756413ABED6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D1A1513-AC12-43DB-9250-756413ABED6C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {768C29F0-8F84-465B-9023-F3F87F1FDBB8}
+	EndGlobalSection
+EndGlobal
