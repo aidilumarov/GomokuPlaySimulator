@@ -12,6 +12,8 @@ namespace GomokuPlaySimulator.Core
 
         char this[int row, int col] { get; set; }
 
+        char this[IGomokuCell move] { get; set; }
+
 
     }
 }

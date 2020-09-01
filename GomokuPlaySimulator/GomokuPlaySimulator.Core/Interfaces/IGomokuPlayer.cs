@@ -6,8 +6,10 @@ namespace GomokuPlaySimulator.Core
 {
     public interface IGomokuPlayer
     {
-        IGomokuCell GetNextBestMove();
+        char PlayerCharacter { get; }
 
-        IGomokuCell GetRandomMove();
+        IGomokuCell GetNextBestMove(IGomokuBoard gameState);
+
+        IGomokuCell GetRandomMove(IGomokuBoard gameState);
     }
 }

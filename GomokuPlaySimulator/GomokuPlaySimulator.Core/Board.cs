@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 namespace GomokuPlaySimulator.Core
@@ -6,10 +7,11 @@ namespace GomokuPlaySimulator.Core
     internal class Board : IGomokuBoard
     {
         #region Fields
+        public readonly char defaultChar = '-';
 
         private readonly char[,] board;
 
-        private char defaultChar = '-';
+        private int numberOfFreeCells;
 
         #endregion
 
@@ -19,11 +21,18 @@ namespace GomokuPlaySimulator.Core
 
         #endregion
 
+        #region Events
+
+        public event Action BoardIsFull;
+
+        #endregion
+
         #region Constructor
 
         public Board(int size)
         {
             BoardSize = size;
+            numberOfFreeCells = BoardSize * BoardSize;
             board = new char[BoardSize, BoardSize];
             InitializeBoard();
         }
@@ -32,6 +41,12 @@ namespace GomokuPlaySimulator.Core
 
         #region PublicMethods
 
+        /// <summary>
+        /// Assign a char value to a cell. If cell is not free, exception will be thrown
+        /// </summary>
+        /// <param name="row">Row</param>
+        /// <param name="col">Column</param>
+        /// <returns></returns>
         public char this[int row, int col]
         {
             get
@@ -42,29 +57,54 @@ namespace GomokuPlaySimulator.Core
             set
             {
                 CheckProvidedCellValueIsValid(value);
+                CheckRequestedCellIsEmpty(row, col);
+
                 board[row, col] = value;
+                numberOfFreeCells -= 1;
+
+                if (numberOfFreeCells == 0)
+                {
+                    BoardIsFull();                    
+                }
             }
         }
 
+        /// <summary>
+        /// Assign a char value to a cell. If cell is not free, exception will be thrown
+        /// </summary>
+        /// <param name="row">Row</param>
+        /// <param name="col">Column</param>
+        /// <returns></returns>
         public char this[IGomokuCell cell]
         {
             get
             {
-                return board[cell.Row, cell.Column];
+                return this[cell.Row, cell.Column];
             }
 
             set
             {
-                CheckProvidedCellValueIsValid(value);
-                board[cell.Row, cell.Column] = value;
+                this[cell.Row, cell.Column] = value;
             }
         }
 
+        /// <summary>
+        /// Check if a cell is empty.
+        /// </summary>
+        /// <param name="row">Row</param>
+        /// <param name="col">Column</param>
+        /// <returns></returns>
         public bool IsEmptyCell(int row, int col)
         {
             return this[row, col] == defaultChar;
         }
 
+        /// <summary>
+        /// Check if a cell is empty.
+        /// </summary>
+        /// <param name="row">Row</param>
+        /// <param name="col">Column</param>
+        /// <returns></returns>
         public bool IsEmptyCell(IGomokuCell cell)
         {
             return IsEmptyCell(cell.Row, cell.Column);
@@ -89,7 +129,15 @@ namespace GomokuPlaySimulator.Core
         {
             if (value == defaultChar)
             {
-                throw new ArgumentException("Cannot mark occupied field as empty.");
+                throw new ArgumentException("Cannot mark field as empty.");
+            }
+        }
+
+        private void CheckRequestedCellIsEmpty(int row, int col)
+        {
+            if (!IsEmptyCell(row, col))
+            {
+                throw new ArgumentException("Cannot reassign occupied field.");
             }
         }
 
