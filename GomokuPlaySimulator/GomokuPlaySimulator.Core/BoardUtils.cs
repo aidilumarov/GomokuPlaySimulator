@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace GomokuPlaySimulator.Core
 {
@@ -8,6 +9,9 @@ namespace GomokuPlaySimulator.Core
     {
         public static void DrawBoard(this IGomokuBoard board)
         {
+            // Clear console
+            Console.Clear();
+
             // drawing rows
             for (int i = 0; i < board.BoardSize; i++)
             {

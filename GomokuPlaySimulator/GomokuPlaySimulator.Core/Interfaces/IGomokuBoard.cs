@@ -12,6 +12,8 @@ namespace GomokuPlaySimulator.Core
 
         bool IsEmptyCell(int row, int col);
 
+        List<IGomokuCell> GetEmptyCells();
+
         char this[int row, int col] { get; set; }
 
         char this[IGomokuCell move] { get; set; }

@@ -20,11 +20,12 @@ namespace GomokuPlaySimulator.Core
 
         public IGomokuCell GetRandomMove(IGomokuBoard gameState)
         {
-            var randomNumberGenerator = new Random();
-            var randomRow = randomNumberGenerator.Next(0, gameState.BoardSize);
-            var randomCol = randomNumberGenerator.Next(0, gameState.BoardSize);
+            var emptyCells = gameState.GetEmptyCells();
 
-            return new Move(randomRow, randomCol);
+            var randomNumberGenerator = new Random();
+            var randomIndex = randomNumberGenerator.Next(0, emptyCells.Count);
+
+            return emptyCells[randomIndex];
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
@@ -46,7 +48,8 @@ namespace GomokuPlaySimulator.Core
         /// </summary>
         /// <param name="row">Row</param>
         /// <param name="col">Column</param>
-        /// <returns></returns>
+        /// <returns>Cell value</returns>
+        /// <exception cref="ArgumentException"></exception>
         public char this[int row, int col]
         {
             get
@@ -62,9 +65,10 @@ namespace GomokuPlaySimulator.Core
                 board[row, col] = value;
                 numberOfFreeCells -= 1;
 
-                if (numberOfFreeCells == 0)
+                if (numberOfFreeCells == 0 && BoardIsFull != null)
                 {
-                    BoardIsFull();                    
+                    var localCopy = BoardIsFull;
+                    localCopy();                    
                 }
             }
         }
@@ -74,7 +78,8 @@ namespace GomokuPlaySimulator.Core
         /// </summary>
         /// <param name="row">Row</param>
         /// <param name="col">Column</param>
-        /// <returns></returns>
+        /// <returns>Cell value</returns>
+        /// <exception cref="ArgumentException"></exception>
         public char this[IGomokuCell cell]
         {
             get
@@ -108,6 +113,24 @@ namespace GomokuPlaySimulator.Core
         public bool IsEmptyCell(IGomokuCell cell)
         {
             return IsEmptyCell(cell.Row, cell.Column);
+        }
+
+        public List<IGomokuCell> GetEmptyCells()
+        {
+            var list = new List<IGomokuCell>(numberOfFreeCells);
+
+            for (int i = 0; i < BoardSize; i++)
+            {
+                for (int j = 0; j < BoardSize; j++)
+                {
+                    if (IsEmptyCell(i, j))
+                    {
+                        list.Add(new Cell(i, j));
+                    }
+                }
+            }
+
+            return list;
         }
 
         #endregion

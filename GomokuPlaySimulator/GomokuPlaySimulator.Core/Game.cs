@@ -1,4 +1,6 @@
-﻿namespace GomokuPlaySimulator.Core
+﻿using System.Threading;
+
+namespace GomokuPlaySimulator.Core
 {
     public class Game
     {
@@ -27,16 +29,18 @@
             var firstMove = CurrentPlayer.GetRandomMove(Board);
             Board[firstMove] = CurrentPlayer.PlayerCharacter;
 
-/*            while (!GameIsOver)
+            while (!GameIsOver)
             {
+                Board.DrawBoard();
+                Thread.Sleep(500);
                 NextTurn();
-            }*/
+            }
         }
 
         private void NextTurn()
         {
             SwitchCurrentPlayer();
-            var nextMove = CurrentPlayer.GetNextBestMove(Board);
+            var nextMove = CurrentPlayer.GetRandomMove(Board);
             Board[nextMove] = CurrentPlayer.PlayerCharacter;
 
         }
@@ -50,6 +54,11 @@
             }
 
             CurrentPlayer = Player1;
+        }
+
+        private void IsGameOver(IGomokuBoard gameState, IGomokuCell lastMove)
+        {
+
         }
 
         private void OnBoardIsFull()

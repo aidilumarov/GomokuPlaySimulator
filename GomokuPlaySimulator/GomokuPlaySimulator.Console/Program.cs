@@ -9,7 +9,6 @@ namespace GomokuPlaySimulator.Console
         {
             var game = new Game();
             game.Start();
-            game.Board.DrawBoard();
         }
     }
 }
