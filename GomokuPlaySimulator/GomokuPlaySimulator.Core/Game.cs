@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GomokuPlaySimulator.Core
+﻿namespace GomokuPlaySimulator.Core
 {
     public class Game
     {
@@ -21,19 +17,20 @@ namespace GomokuPlaySimulator.Core
             Board = new Board(boardSize);
             Player1 = new Player(player1Char);
             Player2 = new Player(player2Char);
+            
+            Board.BoardIsFull += OnBoardIsFull;
         }
 
         public void Start()
         {
-
             CurrentPlayer = Player1;
             var firstMove = CurrentPlayer.GetRandomMove(Board);
             Board[firstMove] = CurrentPlayer.PlayerCharacter;
 
-            while (!GameIsOver)
+/*            while (!GameIsOver)
             {
                 NextTurn();
-            }
+            }*/
         }
 
         private void NextTurn()
@@ -53,6 +50,11 @@ namespace GomokuPlaySimulator.Core
             }
 
             CurrentPlayer = Player1;
+        }
+
+        private void OnBoardIsFull()
+        {
+            GameIsOver = true;
         }
     }
 }

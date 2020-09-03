@@ -1,4 +1,5 @@
 ﻿using System;
+using GomokuPlaySimulator.Core;
 
 namespace GomokuPlaySimulator.Console
 {
@@ -6,7 +7,9 @@ namespace GomokuPlaySimulator.Console
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var game = new Game();
+            game.Start();
+            game.Board.DrawBoard();
         }
     }
 }

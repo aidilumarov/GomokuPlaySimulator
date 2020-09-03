@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace GomokuPlaySimulator.Core
 {
-    internal class Board : IGomokuBoard
+    public class Board : IGomokuBoard
     {
         #region Fields
         public readonly char defaultChar = '-';

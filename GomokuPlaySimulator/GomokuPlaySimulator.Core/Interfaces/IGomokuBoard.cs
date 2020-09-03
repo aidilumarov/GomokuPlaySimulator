@@ -8,6 +8,8 @@ namespace GomokuPlaySimulator.Core
     {
         int BoardSize { get; }
 
+        event Action BoardIsFull;
+
         bool IsEmptyCell(int row, int col);
 
         char this[int row, int col] { get; set; }
