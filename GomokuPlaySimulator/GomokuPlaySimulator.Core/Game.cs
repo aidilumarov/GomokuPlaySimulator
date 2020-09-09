@@ -12,6 +12,8 @@ namespace GomokuPlaySimulator.Core
 
         public IGomokuPlayer CurrentPlayer { get; private set; }
 
+        public IGomokuPlayer PreviousPlayer { get; private set; }
+
         public bool GameIsOver { get; private set; }
 
         public Game(int boardSize = 15, char player1Char = 'X', char player2Char = '0')
@@ -47,6 +49,8 @@ namespace GomokuPlaySimulator.Core
 
         private void SwitchCurrentPlayer()
         {
+            PreviousPlayer = CurrentPlayer;
+
             if (CurrentPlayer == Player1)
             {
                 CurrentPlayer = Player2;
@@ -56,9 +60,9 @@ namespace GomokuPlaySimulator.Core
             CurrentPlayer = Player1;
         }
 
-        private void IsGameOver(IGomokuBoard gameState, IGomokuCell lastMove)
+        private IGomokuPlayer CheckWinner(IGomokuBoard gameState, IGomokuCell lastMove)
         {
-
+            return null;
         }
 
         private void OnBoardIsFull()

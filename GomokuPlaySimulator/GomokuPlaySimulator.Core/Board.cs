@@ -133,9 +133,70 @@ namespace GomokuPlaySimulator.Core
             return list;
         }
 
+        public bool IsThereAnyFiveInARow(int col, int row)
+        {
+            return IsThereAnyFiveInARow(new Cell(col, row));
+        }
+
+        /// <summary>
+        /// Checks if a given characters appears five times in a row.
+        /// Horizontal, vertical, and two diagonals are considered
+        /// </summary>
+        /// <param name="move">Position to check</param>
+        /// <returns>true if there are five given characters in a row</returns>
+        public bool IsThereAnyFiveInARow(IGomokuCell move)
+        {
+            // Check horizontal
+            return CheckHorizontal(move);
+        }
+
         #endregion
 
         #region PrivateMethods
+
+        private bool CheckHorizontal(IGomokuCell move)
+        {
+            var contigious = 1;
+
+            var nextRow = move.Row;
+            var nextColumn = move.Column - 1;
+
+            // Check backwards
+            while (nextColumn >= 0)
+            {
+                if (this[nextRow, nextColumn] == this[move])
+                {
+                    contigious += 1;
+                }
+
+                else
+                {
+                    break;
+                }
+
+                nextColumn -= 1;
+            }
+
+            nextColumn = move.Column + 1;
+
+            // Check forward
+            while (nextColumn < this.BoardSize)
+            {
+                if (this[nextRow, nextColumn] == this[move])
+                {
+                    contigious += 1;
+                }
+
+                else
+                {
+                    break;
+                }
+
+                nextColumn += 1;
+            }
+
+            return contigious == 5;
+        }
 
         private void InitializeBoard()
         {

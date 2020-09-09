@@ -4,11 +4,11 @@ using System.Text;
 
 namespace GomokuPlaySimulator.Core
 {
-    internal struct Cell : IGomokuCell
+    readonly internal struct Cell : IGomokuCell
     {
-        public int Row { get; private set; }
+        public int Row { get; }
 
-        public int Column { get; private set; }
+        public int Column { get; }
 
         public Cell(int row, int col)
         {
