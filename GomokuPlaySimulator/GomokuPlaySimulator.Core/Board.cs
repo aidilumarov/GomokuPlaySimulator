@@ -23,12 +23,6 @@ namespace GomokuPlaySimulator.Core
 
         #endregion
 
-        #region Events
-
-        public event Action BoardIsFull;
-
-        #endregion
-
         #region Constructor
 
         public Board(int size)
@@ -109,12 +103,16 @@ namespace GomokuPlaySimulator.Core
         /// </summary>
         /// <param name="row">Row</param>
         /// <param name="col">Column</param>
-        /// <returns></returns>
+        /// <returns>true if the cell is empty</returns>
         public bool IsEmptyCell(IGomokuCell cell)
         {
             return IsEmptyCell(cell.Row, cell.Column);
         }
 
+        /// <summary>
+        /// Returns a list of currently empty cells
+        /// </summary>
+        /// <returns>list of cell</returns>
         public List<IGomokuCell> GetEmptyCells()
         {
             var list = new List<IGomokuCell>(numberOfFreeCells);
@@ -133,28 +131,38 @@ namespace GomokuPlaySimulator.Core
             return list;
         }
 
+        /// <summary>
+        /// Checks if a given character appears five times in a row.
+        /// Horizontal, vertical, and two diagonals are considered
+        /// </summary>
+        /// <param name="move">Position to check</param>
+        /// <returns>true if there are five given characters in a row</returns>
         public bool IsThereAnyFiveInARow(int col, int row)
         {
             return IsThereAnyFiveInARow(new Cell(col, row));
         }
 
         /// <summary>
-        /// Checks if a given characters appears five times in a row.
+        /// Checks if a given character appears five times in a row.
         /// Horizontal, vertical, and two diagonals are considered
         /// </summary>
         /// <param name="move">Position to check</param>
         /// <returns>true if there are five given characters in a row</returns>
         public bool IsThereAnyFiveInARow(IGomokuCell move)
         {
-            // Check horizontal
-            return CheckHorizontal(move);
+            return CheckHorizontal(move) ||
+                    CheckVertical(move) ||
+                    CheckDiagonalDownward(move) ||
+                    CheckDiagonalUpward(move);
         }
 
-        #endregion
-
-        #region PrivateMethods
-
-        private bool CheckHorizontal(IGomokuCell move)
+        /// <summary>
+        /// Checks if a given character appears five times in a row
+        /// Check is performed horizontally
+        /// </summary>
+        /// <param name="move">Position to check</param>
+        /// <returns>true if there are five given characters in a row</returns>
+        public bool CheckHorizontal(IGomokuCell move)
         {
             var contigious = 1;
 
@@ -197,6 +205,167 @@ namespace GomokuPlaySimulator.Core
 
             return contigious == 5;
         }
+
+        /// <summary>
+        /// Checks if a given character appears five times in a row
+        /// Check is performed vertically
+        /// </summary>
+        /// <param name="move">Position to check</param>
+        /// <returns>true if there are five given characters in a row</returns>
+        public bool CheckVertical(IGomokuCell move)
+        {
+            var contigious = 1;
+
+            var nextRow = move.Row - 1;
+            var nextColumn = move.Column;
+
+            // Check backwards
+            while (nextRow >= 0)
+            {
+                if (this[nextRow, nextColumn] == this[move])
+                {
+                    contigious += 1;
+                }
+
+                else
+                {
+                    break;
+                }
+
+                nextRow -= 1;
+            }
+
+            nextRow = move.Row + 1;
+
+            // Check toward bottom
+            while (nextRow < this.BoardSize)
+            {
+                if (this[nextRow, nextColumn] == this[move])
+                {
+                    contigious += 1;
+                }
+
+                else
+                {
+                    break;
+                }
+
+                nextRow += 1;
+            }
+
+            return contigious == 5;
+        }
+
+
+        /// <summary>
+        /// Checks if a given character appears five times in a row
+        /// Downward facing diagonal is checked
+        /// </summary>
+        /// <param name="move">Position to check</param>
+        /// <returns>true if there are five given characters in a row</returns>
+        public bool CheckDiagonalDownward(IGomokuCell move)
+        {
+            var contigious = 1;
+
+            var nextRow = move.Row - 1;
+            var nextColumn = move.Column - 1;
+
+            // Check backwards
+            while (nextRow >= 0 && nextColumn >= 0)
+            {
+                if (this[nextRow, nextColumn] == this[move])
+                {
+                    contigious += 1;
+                }
+
+                else
+                {
+                    break;
+                }
+
+                nextRow -= 1;
+                nextColumn -= 1;
+            }
+
+            nextRow = move.Row + 1;
+            nextColumn = move.Column + 1;
+
+            // Check toward bottom
+            while (nextRow < this.BoardSize && nextColumn < this.BoardSize)
+            {
+                if (this[nextRow, nextColumn] == this[move])
+                {
+                    contigious += 1;
+                }
+
+                else
+                {
+                    break;
+                }
+
+                nextRow += 1;
+                nextColumn += 1;
+            }
+
+            return contigious == 5;
+        }
+
+        /// <summary>
+        /// Checks if a given character appears five times in a row
+        /// Upward facing diagonal is checked
+        /// </summary>
+        /// <param name="move">Position to check</param>
+        /// <returns>true if there are five given characters in a row</returns>
+        public bool CheckDiagonalUpward(IGomokuCell move)
+        {
+            var contigious = 1;
+
+            var nextRow = move.Row + 1;
+            var nextColumn = move.Column - 1;
+
+            // Check backwards
+            while (nextRow < this.BoardSize && nextColumn >= 0)
+            {
+                if (this[nextRow, nextColumn] == this[move])
+                {
+                    contigious += 1;
+                }
+
+                else
+                {
+                    break;
+                }
+
+                nextRow += 1;
+                nextColumn -= 1;
+            }
+
+            nextRow = move.Row - 1;
+            nextColumn = move.Column + 1;
+
+            // Check toward bottom
+            while (nextRow >= 0 && nextColumn < this.BoardSize)
+            {
+                if (this[nextRow, nextColumn] == this[move])
+                {
+                    contigious += 1;
+                }
+
+                else
+                {
+                    break;
+                }
+
+                nextRow -= 1;
+                nextColumn += 1;
+            }
+
+            return contigious == 5;
+        }
+
+        #endregion
+
+        #region PrivateMethods
 
         private void InitializeBoard()
         {

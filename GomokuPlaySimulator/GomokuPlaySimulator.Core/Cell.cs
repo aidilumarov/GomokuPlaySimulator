@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GomokuPlaySimulator.Core
 {
-    readonly internal struct Cell : IGomokuCell
+    readonly public struct Cell : IGomokuCell
     {
         public int Row { get; }
 

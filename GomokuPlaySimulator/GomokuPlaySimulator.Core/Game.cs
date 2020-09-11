@@ -21,8 +21,6 @@ namespace GomokuPlaySimulator.Core
             Board = new Board(boardSize);
             Player1 = new Player(player1Char);
             Player2 = new Player(player2Char);
-            
-            Board.BoardIsFull += OnBoardIsFull;
         }
 
         public void Start()
@@ -63,11 +61,6 @@ namespace GomokuPlaySimulator.Core
         private IGomokuPlayer CheckWinner(IGomokuBoard gameState, IGomokuCell lastMove)
         {
             return null;
-        }
-
-        private void OnBoardIsFull()
-        {
-            GameIsOver = true;
         }
     }
 }

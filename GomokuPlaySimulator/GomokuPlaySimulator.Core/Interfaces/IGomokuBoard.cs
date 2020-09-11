@@ -8,11 +8,11 @@ namespace GomokuPlaySimulator.Core
     {
         int BoardSize { get; }
 
-        event Action BoardIsFull;
-
         bool IsEmptyCell(int row, int col);
 
         List<IGomokuCell> GetEmptyCells();
+
+        bool IsThereAnyFiveInARow(IGomokuCell move);
 
         char this[int row, int col] { get; set; }
 
