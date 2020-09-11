@@ -8,7 +8,7 @@ namespace GomokuPlaySimulator.Core
     {
         char PlayerCharacter { get; }
 
-        IGomokuCell GetNextBestMove(IGomokuBoard gameState);
+        IGomokuCell GetNextBestMove(IGomokuBoard gameState, IGomokuPlayer opponent);
 
         IGomokuCell GetRandomMove(IGomokuBoard gameState);
     }

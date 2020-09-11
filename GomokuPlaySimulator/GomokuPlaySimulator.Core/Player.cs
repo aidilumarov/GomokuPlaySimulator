@@ -13,9 +13,10 @@ namespace GomokuPlaySimulator.Core
             PlayerCharacter = playerCharacter;
         }
 
-        public IGomokuCell GetNextBestMove(IGomokuBoard gameState)
+        public IGomokuCell GetNextBestMove(IGomokuBoard gameState, IGomokuPlayer opponent)
         {
-            throw new NotImplementedException();
+            var minimax = new MinimaxGomokuMoveGetter();
+            return minimax.GetBestMove(this, opponent, gameState, 2).Cell;
         }
 
         public IGomokuCell GetRandomMove(IGomokuBoard gameState)

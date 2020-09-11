@@ -46,7 +46,7 @@ namespace GomokuPlaySimulator.Core
         private void NextTurn()
         {
             SwitchCurrentPlayer();
-            var nextMove = CurrentPlayer.GetRandomMove(Board);
+            var nextMove = CurrentPlayer.GetNextBestMove(Board, PreviousPlayer);
             Board[nextMove] = CurrentPlayer.PlayerCharacter;
 
             if (Board.IsThereAnyFiveInARow(nextMove))

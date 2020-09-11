@@ -16,6 +16,10 @@ namespace GomokuPlaySimulator.Core
 
         List<IGomokuCell> GetEmptyCells();
 
+        void MarkCellAsEmpty(IGomokuCell move);
+
+        void MarkCellAsEmpty(int row, int col);
+
         bool IsThereAnyFiveInARow(IGomokuCell move);
 
         char this[int row, int col] { get; set; }
