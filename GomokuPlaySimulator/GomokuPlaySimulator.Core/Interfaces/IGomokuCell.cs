@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace GomokuPlaySimulator.Core
 {
     public interface IGomokuCell
@@ -9,5 +6,6 @@ namespace GomokuPlaySimulator.Core
         int Row { get; }
 
         int Column { get; }
+
     }
 }

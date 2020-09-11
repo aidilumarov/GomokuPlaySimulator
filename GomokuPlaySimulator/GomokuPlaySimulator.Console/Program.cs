@@ -1,14 +1,17 @@
 ﻿using System;
 using GomokuPlaySimulator.Core;
 
-namespace GomokuPlaySimulator.Console
+namespace GomokuPlaySimulator
 {
     class Program
     {
         static void Main(string[] args)
         {
             var game = new Game();
-            game.Start();
+            var winner = game.Start();
+            Console.WriteLine($"Winner is {winner.PlayerCharacter}");
+            Console.WriteLine($"Win position is {game.WinMove}");
+
         }
     }
 }

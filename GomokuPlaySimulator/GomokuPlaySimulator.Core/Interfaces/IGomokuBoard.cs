@@ -8,6 +8,8 @@ namespace GomokuPlaySimulator.Core
     {
         int BoardSize { get; }
 
+        int FreeCellCount { get; }
+
         bool IsEmptyCell(int row, int col);
 
         List<IGomokuCell> GetEmptyCells();

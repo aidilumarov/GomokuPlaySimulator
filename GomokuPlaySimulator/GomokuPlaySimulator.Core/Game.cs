@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
 namespace GomokuPlaySimulator.Core
 {
@@ -14,6 +15,8 @@ namespace GomokuPlaySimulator.Core
 
         public IGomokuPlayer PreviousPlayer { get; private set; }
 
+        public IGomokuCell WinMove { get; private set; }
+
         public bool GameIsOver { get; private set; }
 
         public Game(int boardSize = 15, char player1Char = 'X', char player2Char = '0')
@@ -23,7 +26,7 @@ namespace GomokuPlaySimulator.Core
             Player2 = new Player(player2Char);
         }
 
-        public void Start()
+        public IGomokuPlayer Start()
         {
             CurrentPlayer = Player1;
             var firstMove = CurrentPlayer.GetRandomMove(Board);
@@ -32,9 +35,14 @@ namespace GomokuPlaySimulator.Core
             while (!GameIsOver)
             {
                 Board.DrawBoard();
-                Thread.Sleep(500);
                 NextTurn();
             }
+
+
+            Board.DrawBoard();
+
+            // Returns the winner
+            return CurrentPlayer;
         }
 
         private void NextTurn()
@@ -42,6 +50,12 @@ namespace GomokuPlaySimulator.Core
             SwitchCurrentPlayer();
             var nextMove = CurrentPlayer.GetRandomMove(Board);
             Board[nextMove] = CurrentPlayer.PlayerCharacter;
+
+            if (Board.IsThereAnyFiveInARow(nextMove))
+            {
+                GameIsOver = true;
+                WinMove = nextMove;
+            }
 
         }
 
@@ -56,11 +70,6 @@ namespace GomokuPlaySimulator.Core
             }
 
             CurrentPlayer = Player1;
-        }
-
-        private IGomokuPlayer CheckWinner(IGomokuBoard gameState, IGomokuCell lastMove)
-        {
-            return null;
         }
     }
 }

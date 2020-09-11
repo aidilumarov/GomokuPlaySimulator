@@ -13,13 +13,13 @@ namespace GomokuPlaySimulator.Core
 
         private readonly char[,] board;
 
-        private int numberOfFreeCells;
-
         #endregion
 
         #region Properties
 
         public int BoardSize { get; private set; }
+
+        public int FreeCellCount { get; private set; }
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace GomokuPlaySimulator.Core
         public Board(int size)
         {
             BoardSize = size;
-            numberOfFreeCells = BoardSize * BoardSize;
+            FreeCellCount = BoardSize * BoardSize;
             board = new char[BoardSize, BoardSize];
             InitializeBoard();
         }
@@ -57,13 +57,7 @@ namespace GomokuPlaySimulator.Core
                 CheckRequestedCellIsEmpty(row, col);
 
                 board[row, col] = value;
-                numberOfFreeCells -= 1;
-
-                if (numberOfFreeCells == 0 && BoardIsFull != null)
-                {
-                    var localCopy = BoardIsFull;
-                    localCopy();                    
-                }
+                FreeCellCount -= 1;
             }
         }
 
@@ -115,7 +109,7 @@ namespace GomokuPlaySimulator.Core
         /// <returns>list of cell</returns>
         public List<IGomokuCell> GetEmptyCells()
         {
-            var list = new List<IGomokuCell>(numberOfFreeCells);
+            var list = new List<IGomokuCell>(FreeCellCount);
 
             for (int i = 0; i < BoardSize; i++)
             {
@@ -129,6 +123,26 @@ namespace GomokuPlaySimulator.Core
             }
 
             return list;
+        }
+
+        /// <summary>
+        /// Marks a cell as empty
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        public void MarkCellAsEmpty(int row, int col)
+        {
+            board[row, col] = defaultChar;
+            FreeCellCount += 1;
+        }
+
+        /// <summary>
+        /// Marks a cell as empty
+        /// </summary>
+        /// <param name="cell"></param>
+        public void MarkCellAsEmpty(IGomokuCell cell)
+        {
+            MarkCellAsEmpty(cell.Row, cell.Column);
         }
 
         /// <summary>
@@ -164,6 +178,8 @@ namespace GomokuPlaySimulator.Core
         /// <returns>true if there are five given characters in a row</returns>
         public bool CheckHorizontal(IGomokuCell move)
         {
+            if (IsEmptyCell(move)) return false;
+
             var contigious = 1;
 
             var nextRow = move.Row;
@@ -214,6 +230,8 @@ namespace GomokuPlaySimulator.Core
         /// <returns>true if there are five given characters in a row</returns>
         public bool CheckVertical(IGomokuCell move)
         {
+            if (IsEmptyCell(move)) return false;
+
             var contigious = 1;
 
             var nextRow = move.Row - 1;
@@ -265,6 +283,8 @@ namespace GomokuPlaySimulator.Core
         /// <returns>true if there are five given characters in a row</returns>
         public bool CheckDiagonalDownward(IGomokuCell move)
         {
+            if (IsEmptyCell(move)) return false;
+
             var contigious = 1;
 
             var nextRow = move.Row - 1;
@@ -318,6 +338,8 @@ namespace GomokuPlaySimulator.Core
         /// <returns>true if there are five given characters in a row</returns>
         public bool CheckDiagonalUpward(IGomokuCell move)
         {
+            if (IsEmptyCell(move)) return false;
+
             var contigious = 1;
 
             var nextRow = move.Row + 1;
@@ -382,7 +404,7 @@ namespace GomokuPlaySimulator.Core
         {
             if (value == defaultChar)
             {
-                throw new ArgumentException("Cannot mark field as empty.");
+                throw new ArgumentException("Cannot mark field as empty using indexer.");
             }
         }
 
