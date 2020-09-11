@@ -10,6 +10,8 @@ namespace GomokuPlaySimulator.Core
 
         int FreeCellCount { get; }
 
+        List<IGomokuCell> FiveInARowCells { get; }
+
         bool IsEmptyCell(int row, int col);
 
         List<IGomokuCell> GetEmptyCells();

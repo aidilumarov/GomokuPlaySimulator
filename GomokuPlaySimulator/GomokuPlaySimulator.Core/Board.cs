@@ -21,6 +21,8 @@ namespace GomokuPlaySimulator.Core
 
         public int FreeCellCount { get; private set; }
 
+        public List<IGomokuCell> FiveInARowCells { get; private set; }
+
         #endregion
 
         #region Constructor
@@ -181,6 +183,8 @@ namespace GomokuPlaySimulator.Core
             if (IsEmptyCell(move)) return false;
 
             var contigious = 1;
+            var contigiousCells = new List<IGomokuCell>();
+            contigiousCells.Add(move);
 
             var nextRow = move.Row;
             var nextColumn = move.Column - 1;
@@ -191,6 +195,7 @@ namespace GomokuPlaySimulator.Core
                 if (this[nextRow, nextColumn] == this[move])
                 {
                     contigious += 1;
+                    contigiousCells.Add(new Cell(nextRow, nextColumn));
                 }
 
                 else
@@ -209,6 +214,7 @@ namespace GomokuPlaySimulator.Core
                 if (this[nextRow, nextColumn] == this[move])
                 {
                     contigious += 1;
+                    contigiousCells.Add(new Cell(nextRow, nextColumn));
                 }
 
                 else
@@ -219,7 +225,13 @@ namespace GomokuPlaySimulator.Core
                 nextColumn += 1;
             }
 
-            return contigious == 5;
+            if (contigious == 5)
+            {
+                FiveInARowCells = contigiousCells;
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -233,6 +245,8 @@ namespace GomokuPlaySimulator.Core
             if (IsEmptyCell(move)) return false;
 
             var contigious = 1;
+            var contigiousCells = new List<IGomokuCell>();
+            contigiousCells.Add(move);
 
             var nextRow = move.Row - 1;
             var nextColumn = move.Column;
@@ -243,6 +257,7 @@ namespace GomokuPlaySimulator.Core
                 if (this[nextRow, nextColumn] == this[move])
                 {
                     contigious += 1;
+                    contigiousCells.Add(new Cell(nextRow, nextColumn));
                 }
 
                 else
@@ -261,6 +276,7 @@ namespace GomokuPlaySimulator.Core
                 if (this[nextRow, nextColumn] == this[move])
                 {
                     contigious += 1;
+                    contigiousCells.Add(new Cell(nextRow, nextColumn));
                 }
 
                 else
@@ -271,7 +287,13 @@ namespace GomokuPlaySimulator.Core
                 nextRow += 1;
             }
 
-            return contigious == 5;
+            if (contigious == 5)
+            {
+                FiveInARowCells = contigiousCells;
+                return true;
+            }
+
+            return false;
         }
 
 
@@ -286,6 +308,8 @@ namespace GomokuPlaySimulator.Core
             if (IsEmptyCell(move)) return false;
 
             var contigious = 1;
+            var contigiousCells = new List<IGomokuCell>();
+            contigiousCells.Add(move);
 
             var nextRow = move.Row - 1;
             var nextColumn = move.Column - 1;
@@ -296,6 +320,7 @@ namespace GomokuPlaySimulator.Core
                 if (this[nextRow, nextColumn] == this[move])
                 {
                     contigious += 1;
+                    contigiousCells.Add(new Cell(nextRow, nextColumn));
                 }
 
                 else
@@ -316,6 +341,7 @@ namespace GomokuPlaySimulator.Core
                 if (this[nextRow, nextColumn] == this[move])
                 {
                     contigious += 1;
+                    contigiousCells.Add(new Cell(nextRow, nextColumn));
                 }
 
                 else
@@ -327,7 +353,13 @@ namespace GomokuPlaySimulator.Core
                 nextColumn += 1;
             }
 
-            return contigious == 5;
+            if (contigious == 5)
+            {
+                FiveInARowCells = contigiousCells;
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -341,6 +373,8 @@ namespace GomokuPlaySimulator.Core
             if (IsEmptyCell(move)) return false;
 
             var contigious = 1;
+            var contigiousCells = new List<IGomokuCell>();
+            contigiousCells.Add(move);
 
             var nextRow = move.Row + 1;
             var nextColumn = move.Column - 1;
@@ -351,6 +385,7 @@ namespace GomokuPlaySimulator.Core
                 if (this[nextRow, nextColumn] == this[move])
                 {
                     contigious += 1;
+                    contigiousCells.Add(new Cell(nextRow, nextColumn));
                 }
 
                 else
@@ -371,6 +406,7 @@ namespace GomokuPlaySimulator.Core
                 if (this[nextRow, nextColumn] == this[move])
                 {
                     contigious += 1;
+                    contigiousCells.Add(new Cell(nextRow, nextColumn));
                 }
 
                 else
@@ -382,7 +418,13 @@ namespace GomokuPlaySimulator.Core
                 nextColumn += 1;
             }
 
-            return contigious == 5;
+            if (contigious == 5)
+            {
+                FiveInARowCells = contigiousCells;
+                return true;
+            }
+
+            return false;
         }
 
         #endregion

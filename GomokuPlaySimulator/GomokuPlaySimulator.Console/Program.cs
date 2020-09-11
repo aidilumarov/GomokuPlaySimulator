@@ -10,8 +10,6 @@ namespace GomokuPlaySimulator
             var game = new Game();
             var winner = game.Start();
             Console.WriteLine($"Winner is {winner.PlayerCharacter}");
-            Console.WriteLine($"Win position is {game.WinMove}");
-
         }
     }
 }

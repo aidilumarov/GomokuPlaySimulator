@@ -15,8 +15,6 @@ namespace GomokuPlaySimulator.Core
 
         public IGomokuPlayer PreviousPlayer { get; private set; }
 
-        public IGomokuCell WinMove { get; private set; }
-
         public bool GameIsOver { get; private set; }
 
         public Game(int boardSize = 15, char player1Char = 'X', char player2Char = '0')
@@ -39,7 +37,7 @@ namespace GomokuPlaySimulator.Core
             }
 
 
-            Board.DrawBoard();
+            Board.DrawWinCombination();
 
             // Returns the winner
             return CurrentPlayer;
@@ -54,7 +52,6 @@ namespace GomokuPlaySimulator.Core
             if (Board.IsThereAnyFiveInARow(nextMove))
             {
                 GameIsOver = true;
-                WinMove = nextMove;
             }
 
         }
