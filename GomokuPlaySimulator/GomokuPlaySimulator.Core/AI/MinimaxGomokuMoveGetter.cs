@@ -14,6 +14,11 @@ namespace GomokuPlaySimulator.Core
             int depth)
         {
             var emptyCells = board.GetEmptyCellsInDenseRegion();
+            
+            if (!emptyCells.Any())
+            {
+                emptyCells = board.GetEmptyCells();
+            }
 
             AIMove bestMove = new AIMove(Score.Default, emptyCells[0]);
 
@@ -41,6 +46,11 @@ namespace GomokuPlaySimulator.Core
             int depth)
         {
             var emptyCells = board.GetEmptyCellsInDenseRegion();
+
+            if (!emptyCells.Any())
+            {
+                emptyCells = board.GetEmptyCells();
+            }
 
             // Terminal conditions
             if (board.IsThereAnyFiveInARow(lastMove) || !emptyCells.Any())

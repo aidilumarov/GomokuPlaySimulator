@@ -167,20 +167,11 @@ namespace GomokuPlaySimulator.Core
             int endingRow;
             int endingColumn;
 
-            startingRow = firstOccupied.Row > 0 ? firstOccupied.Row - 1 : 0;
-            startingColumn = firstOccupied.Column > 0 ? firstOccupied.Column - 1 : 0;
+            startingRow = firstOccupied.Row > 0 ? (firstOccupied.Row - 1) : 0;
+            startingColumn = firstOccupied.Column > 0 ? (firstOccupied.Column - 1) : 0;
             
-            if (!(firstOccupied.Row == lastOccupied.Row) || !(firstOccupied.Column == lastOccupied.Column))
-            {
-                endingRow = firstOccupied.Row < BoardSize - 1 ? firstOccupied.Row + 1: BoardSize - 1;
-                endingColumn = firstOccupied.Column < BoardSize - 1 ? firstOccupied.Column + 1 : BoardSize - 1;
-            }
-
-            else
-            {
-                endingRow = lastOccupied.Row < BoardSize - 1 ? firstOccupied.Row + 1 : BoardSize - 1;
-                endingColumn = lastOccupied.Column < BoardSize - 1 ? firstOccupied.Column + 1 : BoardSize - 1;
-            }
+            endingRow = firstOccupied.Row < (BoardSize - 1) ? (firstOccupied.Row + 1): BoardSize - 1;
+            endingColumn = firstOccupied.Column < (BoardSize - 1) ? (firstOccupied.Column + 1) : BoardSize - 1;
 
             for (int i = startingRow; i <= endingRow; i++)
             {
