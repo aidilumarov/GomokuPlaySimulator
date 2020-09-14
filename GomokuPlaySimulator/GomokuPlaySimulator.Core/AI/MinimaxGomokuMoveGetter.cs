@@ -1,18 +1,20 @@
 ﻿using GomokuPlaySimulator.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GomokuPlaySimulator.Core
 {
     internal class MinimaxGomokuMoveGetter : IBestGomokuMoveGetter
     {
-        public AIMove GetBestMove(IGomokuPlayer currentPlayer,
+        public IGomokuCell GetBestMove(IGomokuPlayer currentPlayer,
             IGomokuPlayer opponent,
             IGomokuBoard board,
             int depth)
         {
-            var emptyCells = board.GetEmptyCells();
+            var emptyCells = board.GetEmptyCellsInDenseRegion();
+
             AIMove bestMove = new AIMove(Score.Default, emptyCells[0]);
 
             foreach (var cell in emptyCells)
@@ -27,7 +29,7 @@ namespace GomokuPlaySimulator.Core
                 }
             }
 
-            return bestMove;
+            return bestMove.Cell;
         }
 
         private AIMove Minimax(
@@ -38,10 +40,12 @@ namespace GomokuPlaySimulator.Core
             bool maximizing, 
             int depth)
         {
+            var emptyCells = board.GetEmptyCellsInDenseRegion();
+
             // Terminal conditions
-            if (board.IsThereAnyFiveInARow(lastMove))
+            if (board.IsThereAnyFiveInARow(lastMove) || !emptyCells.Any())
             {
-                var score = maximizing ? Score.OpponentWins : Score.ThisPlayerWins;
+                var score = maximizing ? Score.ThisPlayerWins : Score.OpponentWins;
                 return new AIMove(score, lastMove);
             }
 
@@ -51,7 +55,7 @@ namespace GomokuPlaySimulator.Core
 
                 if (board.IsThereAnyFiveInARow(lastMove))
                 {
-                    score = maximizing ? Score.OpponentWins : Score.ThisPlayerWins;
+                    score = maximizing ? Score.ThisPlayerWins : Score.OpponentWins;
                 }
 
                 else
@@ -62,11 +66,10 @@ namespace GomokuPlaySimulator.Core
                 return new AIMove(score, lastMove);
             }
 
+            AIMove bestMove = new AIMove(Score.Default, emptyCells[0]);
+
             if (maximizing)
             {
-                var emptyCells = board.GetEmptyCells();
-                AIMove bestMove = new AIMove(Score.Default, emptyCells[0]);
-
                 foreach (var cell in emptyCells)
                 {
                     board[cell] = currentPlayer.PlayerCharacter;
@@ -84,9 +87,6 @@ namespace GomokuPlaySimulator.Core
 
             else
             {
-                var emptyCells = board.GetEmptyCells();
-                AIMove bestMove = new AIMove(Score.Default, emptyCells[0]);
-
                 foreach (var cell in emptyCells)
                 {
                     board[cell] = currentPlayer.PlayerCharacter;

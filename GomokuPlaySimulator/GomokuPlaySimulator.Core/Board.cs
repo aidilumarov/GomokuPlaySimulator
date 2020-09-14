@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
+using System.Globalization;
+using System.Linq;
 
 namespace GomokuPlaySimulator.Core
 {
@@ -108,7 +108,7 @@ namespace GomokuPlaySimulator.Core
         /// <summary>
         /// Returns a list of currently empty cells
         /// </summary>
-        /// <returns>list of cell</returns>
+        /// <returns>list of cells</returns>
         public List<IGomokuCell> GetEmptyCells()
         {
             var list = new List<IGomokuCell>(FreeCellCount);
@@ -125,6 +125,75 @@ namespace GomokuPlaySimulator.Core
             }
 
             return list;
+        }
+
+        /// <summary>
+        /// REturns a list of cells in a relatively dense region
+        /// </summary>
+        /// <returns>list of empty cells in a dense region</returns>
+        public List<IGomokuCell> GetEmptyCellsInDenseRegion() 
+        {
+            Cell firstOccupied = new Cell();
+            Cell lastOccupied = new Cell();
+            List<IGomokuCell> cells = new List<IGomokuCell>();
+            
+            // Determine first and last occupied cells
+            for (int i = 0; i < BoardSize; i++)
+            {
+                for (int j = 0; j < BoardSize; j++)
+                {
+                    if (!IsEmptyCell(i, j))
+                    {
+                        var cell = new Cell(i, j);
+                        firstOccupied = cell;
+                    }
+                }
+            }
+
+            for (int i = BoardSize - 1; i >= 0; i--)
+            {
+                for (int j = BoardSize - 1; j >= 0; j--)
+                {
+                    if (!IsEmptyCell(i, j))
+                    {
+                        var cell = new Cell(i, j);
+                        lastOccupied = cell;
+                    }
+                }
+            }
+
+            int startingRow;
+            int startingColumn;
+            int endingRow;
+            int endingColumn;
+
+            startingRow = firstOccupied.Row > 0 ? firstOccupied.Row - 1 : 0;
+            startingColumn = firstOccupied.Column > 0 ? firstOccupied.Column - 1 : 0;
+            
+            if (!(firstOccupied.Row == lastOccupied.Row) || !(firstOccupied.Column == lastOccupied.Column))
+            {
+                endingRow = firstOccupied.Row < BoardSize - 1 ? firstOccupied.Row + 1: BoardSize - 1;
+                endingColumn = firstOccupied.Column < BoardSize - 1 ? firstOccupied.Column + 1 : BoardSize - 1;
+            }
+
+            else
+            {
+                endingRow = lastOccupied.Row < BoardSize - 1 ? firstOccupied.Row + 1 : BoardSize - 1;
+                endingColumn = lastOccupied.Column < BoardSize - 1 ? firstOccupied.Column + 1 : BoardSize - 1;
+            }
+
+            for (int i = startingRow; i <= endingRow; i++)
+            {
+                for (int j = startingColumn; j <= endingColumn; j++)
+                {
+                    if (IsEmptyCell(i, j))
+                    {
+                        cells.Add(new Cell(i, j));
+                    }
+                }
+            }
+
+            return cells;
         }
 
         /// <summary>

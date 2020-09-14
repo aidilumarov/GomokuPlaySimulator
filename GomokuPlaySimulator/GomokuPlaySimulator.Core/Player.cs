@@ -16,7 +16,7 @@ namespace GomokuPlaySimulator.Core
         public IGomokuCell GetNextBestMove(IGomokuBoard gameState, IGomokuPlayer opponent)
         {
             var minimax = new MinimaxGomokuMoveGetter();
-            return minimax.GetBestMove(this, opponent, gameState, 2).Cell;
+            return minimax.GetBestMove(this, opponent, gameState, 2);
         }
 
         public IGomokuCell GetRandomMove(IGomokuBoard gameState)

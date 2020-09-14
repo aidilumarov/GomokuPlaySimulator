@@ -16,6 +16,8 @@ namespace GomokuPlaySimulator.Core
 
         List<IGomokuCell> GetEmptyCells();
 
+        List<IGomokuCell> GetEmptyCellsInDenseRegion();
+
         void MarkCellAsEmpty(IGomokuCell move);
 
         void MarkCellAsEmpty(int row, int col);

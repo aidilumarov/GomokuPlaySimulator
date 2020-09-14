@@ -9,6 +9,6 @@ namespace GomokuPlaySimulator.Core
         Default = int.MinValue,
         ThisPlayerWins = 10,
         OpponentWins = -10,
-        Tie = 0
+        Tie = -50
     }
 }

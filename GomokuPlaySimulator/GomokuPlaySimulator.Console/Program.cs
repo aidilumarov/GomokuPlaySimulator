@@ -9,7 +9,16 @@ namespace GomokuPlaySimulator
         {
             var game = new Game();
             var winner = game.Start();
-            Console.WriteLine($"Winner is {winner.PlayerCharacter}");
+
+            if (winner != null)
+            {
+                Console.WriteLine($"Winner is {winner.PlayerCharacter}");
+            }
+
+            else
+            {
+                Console.WriteLine("Tie");
+            }
         }
     }
 }
